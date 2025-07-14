@@ -1,36 +1,34 @@
-
-import React from 'react'
-import { IEvento } from '../../interfaces/IEvento';
-import style from './Calendario.module.scss';
-import ptBR from './localizacao/ptBR.json'
-import Kalend, { CalendarView } from 'kalend'
-import 'kalend/dist/styles/index.css';
+import React from "react";
+import { IEvent } from "../../interfaces/IEvento";
+import style from "./Calendario.module.scss";
+import ptBR from "./localizacao/ptBR.json";
+import Kalend, { CalendarView } from "kalend";
+import "kalend/dist/styles/index.css";
 
 interface IKalendEvento {
-  id?: number
-  startAt: string
-  endAt: string
-  summary: string
-  color: string
+  id?: number;
+  startAt: string;
+  endAt: string;
+  summary: string;
+  color: string;
 }
 
-const Calendario: React.FC<{ eventos: IEvento[] }> = ({ eventos }) => {
-
+const Calendario: React.FC<{ eventos: IEvent[] }> = ({ eventos }) => {
   const eventosKalend = new Map<string, IKalendEvento[]>();
 
-  eventos.forEach(evento => {
-    const chave = evento.inicio.toISOString().slice(0, 10)
+  eventos.forEach((evento) => {
+    const chave = event.initialDate.toISOString().slice(0, 10);
     if (!eventosKalend.has(chave)) {
-      eventosKalend.set(chave, [])
+      eventosKalend.set(chave, []);
     }
     eventosKalend.get(chave)?.push({
-      id: evento.id,
-      startAt: evento.inicio.toISOString(),
-      endAt: evento.fim.toISOString(),
-      summary: evento.descricao,
-      color: 'blue'
-    })
-  })
+      id: event.id,
+      startAt: event.initialDate.toISOString(),
+      endAt: event.fim.toISOString(),
+      summary: event.descricao,
+      color: "blue",
+    });
+  });
   return (
     <div className={style.Container}>
       <Kalend
@@ -38,14 +36,14 @@ const Calendario: React.FC<{ eventos: IEvento[] }> = ({ eventos }) => {
         initialDate={new Date().toISOString()}
         hourHeight={60}
         initialView={CalendarView.WEEK}
-        timeFormat={'24'}
-        weekDayStart={'Monday'}
-        calendarIDsHidden={['work']}
-        language={'customLanguage'}
+        timeFormat={"24"}
+        weekDayStart={"Monday"}
+        calendarIDsHidden={["work"]}
+        language={"customLanguage"}
         customLanguage={ptBR}
       />
     </div>
   );
-}
+};
 
-export default Calendario
+export default Calendario;

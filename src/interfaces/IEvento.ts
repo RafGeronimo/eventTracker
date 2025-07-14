@@ -1,7 +1,7 @@
-export interface IEvento {
-  id?: number
-  descricao: string
-  completo: boolean
-  inicio: Date
-  fim: Date
+export interface IEvent {
+  id?: number;
+  description: string;
+  completed: boolean;
+  initialDate: Date;
+  endDate: Date;
 }
