@@ -4,6 +4,8 @@ import style from "./Calendario.module.scss";
 import ptBR from "./localizacao/ptBR.json";
 import Kalend, { CalendarView } from "kalend";
 import "kalend/dist/styles/index.css";
+import { useRecoilValue } from "recoil";
+import { eventList } from "../../atom";
 
 interface IKalendEvento {
   id?: number;
@@ -13,10 +15,10 @@ interface IKalendEvento {
   color: string;
 }
 
-const Calendario: React.FC<{ eventos: IEvent[] }> = ({ eventos }) => {
+const Calendario = () => {
   const eventosKalend = new Map<string, IKalendEvento[]>();
-
-  eventos.forEach((evento) => {
+  const events = useRecoilValue(eventList);
+  events.forEach((event) => {
     const chave = event.initialDate.toISOString().slice(0, 10);
     if (!eventosKalend.has(chave)) {
       eventosKalend.set(chave, []);
@@ -24,8 +26,8 @@ const Calendario: React.FC<{ eventos: IEvent[] }> = ({ eventos }) => {
     eventosKalend.get(chave)?.push({
       id: event.id,
       startAt: event.initialDate.toISOString(),
-      endAt: event.fim.toISOString(),
-      summary: event.descricao,
+      endAt: event.endDate.toISOString(),
+      summary: event.description,
       color: "blue",
     });
   });

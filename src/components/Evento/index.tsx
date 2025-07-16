@@ -1,6 +1,6 @@
 import React from "react";
 import { IEvent } from "../../interfaces/IEvento";
-import style from "./event.module.scss";
+import style from "./Evento.module.scss";
 import EventoCheckbox from "./EventoCheckbox";
 
 const Evento: React.FC<{
@@ -16,7 +16,7 @@ const Evento: React.FC<{
 
   return (
     <div className={estilos.join(" ")}>
-      <EventoCheckbox evento={event} aoAlterarStatus={aoAlterarStatus} />
+      <EventoCheckbox event={event} aoAlterarStatus={aoAlterarStatus} />
       <div className="cards-info">
         <h3 className={style.descricao}>
           {event.description} - {event.initialDate.toLocaleDateString()}

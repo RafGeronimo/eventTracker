@@ -5,21 +5,12 @@ import Formulario from "./components/Formulario";
 import { IEvent } from "./interfaces/IEvento";
 import Calendario from "./components/Calendario";
 import ListaDeEventos from "./components/ListaDeEventos";
-import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
+import { RecoilRoot, useSetRecoilState } from "recoil";
 import { eventList } from "./atom";
 
 function App() {
-  const events = useRecoilState(eventList);
-
   const [filtro, setFiltro] = useState<Date | null>();
 
-  const adicionarEvento = (event: IEvent) => {
-    event.id = Math.round(new Date().getTime() / 1000);
-    events.push(event);
-    console.log(events);
-
-    //setEventos([...eventos]);
-  };
   const alterarStatusEvento = (id: number) => {
     // const evento = eventos.find((evento) => event.id === id);
     // if (evento) {
@@ -28,23 +19,23 @@ function App() {
     // setEventos([...eventos]);
   };
   const deletarEvento = (id: number) => {
-    //setEventos([...eventos.filter((evento) => event.id !== id)]);
+    // setEventos([...eventos.filter((evento) => event.id !== id)]);
   };
 
   const aplicarFiltro = (data: Date | null) => {
     setFiltro(data);
   };
 
-  const filtrados = !filtro
-    ? events
-    : events.filter((event) => filtro!.toISOString().slice(0, 10) === event.initialDate.toISOString().slice(0, 10));
+  // const filtrados = !filtro
+  //   ? events
+  //   : events.filter((event) => filtro!.toISOString().slice(0, 10) === event.initialDate.toISOString().slice(0, 10));
 
   return (
     <RecoilRoot>
       <div className={style.App}>
         <div className={style.Coluna}>
           <Card>
-            <Formulario aoSalvar={adicionarEvento} />
+            <Formulario />
           </Card>
           <hr />
           <Card>
@@ -52,12 +43,11 @@ function App() {
               aoFiltroAplicado={aplicarFiltro}
               aoAlterarStatus={alterarStatusEvento}
               aoDeletarEvento={deletarEvento}
-              events={filtrados}
             />
           </Card>
         </div>
         <div className={style.Coluna}>
-          <Calendario eventos={eventos} />
+          <Calendario />
         </div>
       </div>
     </RecoilRoot>

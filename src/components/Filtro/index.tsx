@@ -4,7 +4,7 @@ import style from "./Filtro.module.scss";
 const Filtro: React.FC<{ aoFiltroAplicado: (data: Date | null) => void }> = ({ aoFiltroAplicado }) => {
   const [data, setData] = useState("");
 
-  const submeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
+  const submeterForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!data) {
       aoFiltroAplicado(null);
@@ -20,7 +20,7 @@ const Filtro: React.FC<{ aoFiltroAplicado: (data: Date | null) => void }> = ({ a
         type="date"
         name="data"
         className={style.input}
-        onChange={(evento) => setData(event.target.value)}
+        onChange={(event) => setData(event.target.value)}
         placeholder="Por data"
         value={data}
       />

@@ -1,26 +1,37 @@
 import React, { useState } from "react";
 import { IEvent } from "../../interfaces/IEvento";
 import style from "./Formulario.module.scss";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { eventList } from "../../atom";
+import getNextEventId from "../../utils/getNextEventId";
 
-const Formulario: React.FC<{ aoSalvar: (evento: IEvent) => void }> = ({ aoSalvar }) => {
+const Formulario = () => {
   const [descricao, setDescricao] = useState("");
   const [dataInicio, setDataInicio] = useState("");
   const [horaInicio, setHoraInicio] = useState("");
   const [dataFim, setDataFim] = useState("");
   const [horaFim, setHoraFim] = useState("");
 
+  const events = useRecoilValue(eventList);
+  const setEventList = useSetRecoilState(eventList);
+
   const montarData = (data: string, hora: string) => {
     const dataString = data.slice(0, 10);
     return new Date(`${dataString}T${hora}`);
   };
 
+  const onSubmit = (event: IEvent) => {
+    setEventList((prev) => [...prev, event]);
+  };
+
   const submeterForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    aoSalvar({
-      descricao,
-      inicio: montarData(dataInicio, horaInicio),
-      fim: montarData(dataFim, horaFim),
-      completo: false,
+    onSubmit({
+      id: getNextEventId(events),
+      description: descricao,
+      initialDate: montarData(dataInicio, horaInicio),
+      endDate: montarData(dataFim, horaFim),
+      completed: false,
     });
     setDescricao("");
     setDataInicio("");
@@ -38,7 +49,7 @@ const Formulario: React.FC<{ aoSalvar: (evento: IEvent) => void }> = ({ aoSalvar
         name="descricao"
         id="descricao"
         className={style.input}
-        onChange={(evento) => setDescricao(event.target.value)}
+        onChange={(event) => setDescricao(event.target.value)}
         placeholder="Descrição"
         value={descricao}
         autoComplete="off"
@@ -51,7 +62,7 @@ const Formulario: React.FC<{ aoSalvar: (evento: IEvent) => void }> = ({ aoSalvar
           type="date"
           name="dataInicio"
           className={style.input}
-          onChange={(evento) => setDataInicio(event.target.value)}
+          onChange={(event) => setDataInicio(event.target.value)}
           value={dataInicio}
           required
         />
@@ -59,7 +70,7 @@ const Formulario: React.FC<{ aoSalvar: (evento: IEvent) => void }> = ({ aoSalvar
           type="time"
           name="horaInicio"
           className={style.input}
-          onChange={(evento) => setHoraInicio(event.target.value)}
+          onChange={(event) => setHoraInicio(event.target.value)}
           value={horaInicio}
           required
         />
@@ -71,7 +82,7 @@ const Formulario: React.FC<{ aoSalvar: (evento: IEvent) => void }> = ({ aoSalvar
           type="date"
           name="dataFim"
           className={style.input}
-          onChange={(evento) => setDataFim(event.target.value)}
+          onChange={(event) => setDataFim(event.target.value)}
           value={dataFim}
           required
         />
@@ -79,7 +90,7 @@ const Formulario: React.FC<{ aoSalvar: (evento: IEvent) => void }> = ({ aoSalvar
           type="time"
           name="horaFim"
           className={style.input}
-          onChange={(evento) => setHoraFim(event.target.value)}
+          onChange={(event) => setHoraFim(event.target.value)}
           value={horaFim}
           required
         />
