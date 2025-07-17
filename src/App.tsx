@@ -23,7 +23,7 @@ function App() {
   };
 
   const aplicarFiltro = (data: Date | null) => {
-    setFiltro(data);
+    // setFiltro(data);
   };
 
   // const filtrados = !filtro

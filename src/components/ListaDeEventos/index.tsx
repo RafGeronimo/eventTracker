@@ -5,14 +5,18 @@ import style from "./ListaDeEventos.module.scss";
 import { useRecoilValue } from "recoil";
 import { eventList } from "../../atom";
 
-const ListaDeEventos: React.FC<{
+const ListaDeEventos = ({
+  aoDeletarEvento,
+  aoAlterarStatus,
+  aoFiltroAplicado,
+}: {
   aoAlterarStatus: (id: number) => void;
   aoDeletarEvento: (id: number) => void;
   aoFiltroAplicado: (data: Date | null) => void;
-}> = ({ aoDeletarEvento, aoAlterarStatus, aoFiltroAplicado }) => {
+}) => {
   const events = useRecoilValue(eventList);
 
-  console.log("eve", events);
+  console.log("events", events);
 
   return (
     <section>

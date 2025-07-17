@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import style from "./Filtro.module.scss";
 
-const Filtro: React.FC<{ aoFiltroAplicado: (data: Date | null) => void }> = ({ aoFiltroAplicado }) => {
+const Filtro = ({ aoFiltroAplicado }: { aoFiltroAplicado: (data: Date | null) => void }) => {
   const [data, setData] = useState("");
 
   const submeterForm = (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,7 +24,6 @@ const Filtro: React.FC<{ aoFiltroAplicado: (data: Date | null) => void }> = ({ a
         placeholder="Por data"
         value={data}
       />
-
       <button className={style.botao}>Filtrar</button>
     </form>
   );

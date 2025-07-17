@@ -3,7 +3,7 @@ import { IEvent } from "../../interfaces/IEvento";
 import style from "./Formulario.module.scss";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { eventList } from "../../atom";
-import getNextEventId from "../../utils/getNextEventId";
+import useNextEventId from "../../hooks/useNextEventId";
 
 const Formulario = () => {
   const [descricao, setDescricao] = useState("");
@@ -12,7 +12,6 @@ const Formulario = () => {
   const [dataFim, setDataFim] = useState("");
   const [horaFim, setHoraFim] = useState("");
 
-  const events = useRecoilValue(eventList);
   const setEventList = useSetRecoilState(eventList);
 
   const montarData = (data: string, hora: string) => {
@@ -24,10 +23,12 @@ const Formulario = () => {
     setEventList((prev) => [...prev, event]);
   };
 
+  const nextId = useNextEventId();
+
   const submeterForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit({
-      id: getNextEventId(events),
+      id: nextId,
       description: descricao,
       initialDate: montarData(dataInicio, horaInicio),
       endDate: montarData(dataFim, horaFim),

@@ -1,6 +1,9 @@
+import { useRecoilValue } from "recoil";
 import { IEvent } from "../interfaces/IEvento";
+import { eventList } from "../atom";
 
-const getNextEventId = (events: IEvent[]): number => {
+const useNextEventId = (): number => {
+  const events = useRecoilValue(eventList);
   return (
     events.reduce((acc: number, curr: IEvent) => {
       if (!curr.id) return acc;
@@ -13,4 +16,4 @@ const getNextEventId = (events: IEvent[]): number => {
   );
 };
 
-export default getNextEventId;
+export default useNextEventId;
