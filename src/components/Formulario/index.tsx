@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IEvent } from "../../interfaces/IEvento";
 import style from "./Formulario.module.scss";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { eventList } from "../../atom";
 import useNextEventId from "../../hooks/useNextEventId";
 

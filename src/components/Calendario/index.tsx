@@ -9,7 +9,7 @@ import { eventList } from "../../atom";
 import useUpdateEvent from "../../hooks/useUpdateEvent";
 
 interface IKalendEvento {
-  id?: number;
+  id: number;
   startAt: string;
   endAt: string;
   summary: string;
@@ -18,6 +18,7 @@ interface IKalendEvento {
 
 const Calendario = () => {
   const eventosKalend = new Map<string, IKalendEvento[]>();
+  const eventsArray: IKalendEvento[] = [];
   const events = useRecoilValue(eventList);
   const updateEvent = useUpdateEvent();
   events.forEach((event) => {
@@ -25,13 +26,17 @@ const Calendario = () => {
     if (!eventosKalend.has(chave)) {
       eventosKalend.set(chave, []);
     }
-    eventosKalend.get(chave)?.push({
-      id: event.id,
-      startAt: event.initialDate.toISOString(),
-      endAt: event.endDate.toISOString(),
-      summary: event.description,
-      color: "blue",
-    });
+    if (event.id !== undefined) {
+      const currentEvent = {
+        id: event.id,
+        startAt: event.initialDate.toISOString(),
+        endAt: event.endDate.toISOString(),
+        summary: event.description,
+        color: "blue",
+      };
+      eventosKalend.get(chave)?.push(currentEvent);
+      eventsArray.push(currentEvent);
+    }
   });
 
   const onEventDragFinish: OnEventDragFinish = (prevKalendEvent: CalendarEvent, updatedKalendEvent: CalendarEvent) => {
@@ -49,7 +54,7 @@ const Calendario = () => {
   return (
     <div className={style.Container}>
       <Kalend
-        events={Object.fromEntries(eventosKalend)}
+        events={eventsArray}
         initialDate={new Date().toISOString()}
         hourHeight={60}
         initialView={CalendarView.WEEK}
