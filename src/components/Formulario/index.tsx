@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import { IEvent } from "../../interfaces/IEvento";
 import style from "./Formulario.module.scss";
-import { useSetRecoilState } from "recoil";
-import { eventList } from "../../atom";
-import useNextEventId from "../../hooks/useNextEventId";
+import useAddEvent from "../../hooks/useAddEvent";
 
 const Formulario = () => {
   const [descricao, setDescricao] = useState("");
@@ -12,36 +9,34 @@ const Formulario = () => {
   const [dataFim, setDataFim] = useState("");
   const [horaFim, setHoraFim] = useState("");
 
-  const setEventList = useSetRecoilState(eventList);
+  const addEvent = useAddEvent();
 
   const montarData = (data: string, hora: string) => {
     const dataString = data.slice(0, 10);
     return new Date(`${dataString}T${hora}`);
   };
 
-  const onSubmit = (event: IEvent) => {
-    setEventList((prev) => [...prev, event]);
-  };
-
-  const nextId = useNextEventId();
-
-  const submeterForm = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit({
-      id: nextId,
-      description: descricao,
-      initialDate: montarData(dataInicio, horaInicio),
-      endDate: montarData(dataFim, horaFim),
-      completed: false,
-    });
-    setDescricao("");
-    setDataInicio("");
-    setHoraInicio("");
-    setDataFim("");
-    setHoraFim("");
+    try {
+      const newEvent = {
+        description: descricao,
+        initialDate: montarData(dataInicio, horaInicio),
+        endDate: montarData(dataFim, horaFim),
+        completed: false,
+      };
+      addEvent(newEvent);
+      setDescricao("");
+      setDataInicio("");
+      setHoraInicio("");
+      setDataFim("");
+      setHoraFim("");
+    } catch (error) {
+      alert(error);
+    }
   };
   return (
-    <form className={style.Formulario} onSubmit={submeterForm}>
+    <form className={style.Formulario} onSubmit={onSubmit}>
       <h3 className={style.titulo}>Novo evento</h3>
 
       <label>Descrição</label>

@@ -1,9 +1,8 @@
-import { useRecoilValue } from "recoil";
 import { IEvent } from "../interfaces/IEvento";
-import { eventList } from "../atom";
+import useEventList from "./useEventList";
 
 const useNextEventId = (): number => {
-  const events = useRecoilValue(eventList);
+  const events = useEventList();
   return (
     events.reduce((acc: number, curr: IEvent) => {
       if (!curr.id) return acc;

@@ -2,14 +2,14 @@ import React from "react";
 import { IEvent } from "../../interfaces/IEvento";
 import style from "./Evento.module.scss";
 import EventCheckbox from "./EventoCheckbox";
+import useRmvEvent from "../../hooks/useRmvEvent";
 
 const Evento: React.FC<{
   event: IEvent;
   aoAlterarStatus: (id: number) => void;
-  aoDeletarEvento: (id: number) => void;
-}> = ({ event, aoDeletarEvento }) => {
+}> = ({ event }) => {
   const estilos = [style.Evento];
-
+  const rmvEvent = useRmvEvent();
   if (event.completed) {
     estilos.push(style.completed);
   }
@@ -22,7 +22,9 @@ const Evento: React.FC<{
           {event.description} - {event.initialDate.toLocaleDateString()}
         </h3>
       </div>
-      <i className="far fa-times-circle fa-2x" onClick={() => aoDeletarEvento(event.id!)}></i>
+      <i className="far fa-times-circle fa-2x" onClick={() => rmvEvent(event.id!)}>
+        remover
+      </i>
     </div>
   );
 };
